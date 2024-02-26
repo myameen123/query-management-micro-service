@@ -1,6 +1,7 @@
 import Query from "../modals/query.modal.js";
 import convertSize from "convert-size";
 const handleEvent = async (type, data) => {
+  // console.log(type, data);
   if (type === "userCreated") {
     const newUser = new Query({ userId: data.userId });
     await newUser.save();
