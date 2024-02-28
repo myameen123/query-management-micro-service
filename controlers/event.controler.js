@@ -1,7 +1,7 @@
 import Query from "../modals/query.modal.js";
 import convertSize from "convert-size";
 const handleEvent = async (type, data) => {
-  // console.log(type, data);
+  console.log(type, data);
   if (type === "userCreated") {
     const newUser = new Query({ userId: data.userId });
     await newUser.save();
@@ -18,6 +18,7 @@ const handleEvent = async (type, data) => {
       uploadDate: data.uploadDate,
     };
     user.images.push(newImage);
+    console.log(newImage);
 
     // Save the updated user document
     await user.save();
@@ -68,8 +69,8 @@ export const eventHandler = async (req, res, next) => {
 
   try {
     handleEvent(type, data);
-
-    res.status(201).json({ message: "event recieved" });
+    const myuser = await Query.findOne({ userId: data.userId });
+    res.status(201).json({ message: "event recieved", updateuser: myuser });
   } catch (error) {
     return next(error);
   }
